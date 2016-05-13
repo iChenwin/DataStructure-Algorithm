@@ -13,3 +13,25 @@
     每个元素包含两个域，`值域`和`指针域`，我们把这样的元素称之为`节点`。  
     每个节点的指针域内有一个指针，指向下一个节点，而最后一个节点则指向一个空值。  
     
+3. 插入排序  
+```C
+#define LEN 5
+void insertion(int arr[])
+{
+    int i = 0;
+    int j = 1;
+    int key = 0;
+    while (j < LEN)
+    {
+        key = arr[j];
+        i = j - 1;
+        while (arr[i] > key && i >= 0)
+        {
+            arr[i + 1] = arr[i];
+            i--;
+        }
+        arr[i + 1] = key;
+        j++;
+    }
+}
+```

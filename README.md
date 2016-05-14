@@ -17,7 +17,7 @@
 #### 算法分析
 ##### 一、比较排序算法  
 插入排序、归并排序、堆排序、快速排序都是比较排序算法。  
-![排序复杂度](http://7i7io5.com1.z0.glb.clouddn.com/sort.PNG)
+![排序复杂度](http://7i7io5.com1.z0.glb.clouddn.com/sort.PNG)  
 1. 插入排序  
 有5张牌(arr[5]={5,2,4,3,1})，先取第二张牌(key=arr[j], j=1)，拿key和它之前的每一位比较，比它大的则往后挪(arr[i+1]=arr[i])，最后将key插入，然后取下一个key。
 ```C

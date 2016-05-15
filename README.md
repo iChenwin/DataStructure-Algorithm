@@ -76,7 +76,7 @@ void IsBigEndian()
         return FALSE;           //是小端模式
     }
 }
-  ```
+```
 5. 快速排序  
   ```C
 #include<stdio.h>

@@ -42,3 +42,111 @@ void insertion(int arr[])
     }
 }
 ```
+#### 面试题
+1. 堆和栈的区别：[堆和栈-静影沉璧](http://ichenwin.github.io/2016/05/12/%E5%A0%86%E5%92%8C%E6%A0%88/#more)  
+2. 进程间通信的几种主要手段:  
+  1. 管道（Pipe）及有名管道（named pipe）：管道可用于具有亲缘关系进程间的通信，有名管道克服了管道没有名字的限制，因此，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信；  
+  2. 信号（Signal）：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送信号给进程本身；linux除了支持Unix早期信号语义函数sigal外，还支持语义符合Posix.1标准的信号函数sigaction（实际上，该函数是基于BSD的，BSD为了实现可靠信号机制，又能够统一对外接口，用sigaction函数重新实现了signal函数）；  
+  3. 报文（Message）队列（消息队列）：消息队列是消息的链接表，包括Posix消息队列system V消息队列。有足够权限的进程可以向队列中添加消息，被赋予读权限的进程则可以读走队列中的消息。消息队列克服了信号承载信息量少，管道只能承载无格式字节流以及缓冲区大小受限等缺点。  
+  4. 共享内存：使得多个进程可以访问同一块内存空间，是最快的可用IPC形式。是针对其他通信机制运行效率较低而设计的。往往与其它通信机制，如信号量结合使用，来达到进程间的同步及互斥。  
+  5. 信号量（semaphore）：主要作为进程间以及同一进程不同线程之间的同步手段。  
+  6. 套接口（Socket）：更为一般的进程间通信机制，可用于不同机器之间的进程间通信。起初是由Unix系统的BSD分支开发出来的，但现在一般可以移植到其它类Unix系统上：Linux和System V的变种都支持套接字。  
+  出处：[深刻理解Linux进程间通信（IPC）](https://www.ibm.com/developerworks/cn/linux/l-ipc/)
+3. 线程  
+进程是资源分配的单位，同一进程中的多个线程共享该进程的资源（如作为共享内存的全局变量）。Linux中所谓的“线程”只是在被创建时clone了父进程的资源，因此clone出来的进程表现为“线程”，这一点一定要弄清楚。因此，Linux“线程”这个概念只有在打冒号的情况下才是最准确的。    
+同一个进程的多个线程在同一个地址空间，通信是很容易的事情，因此多线程间要同步就好了。  
+同步方式[线程间同步--互斥锁、条件变量、信号量](http://blog.csdn.net/yusiguyuan/article/details/14160081)：  
+  1. 互斥锁（mutex）  
+  2. 条件变量（condition variable）  
+  3. 信号量  
+     信号量（Semaphore）和Mutex类似，表示可用资源的数量，和Mutex不同的是这个数量可以大于1。
+[进程与线程的一个简单解释--阮一峰](http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html)
+4. 大端字节序的判断  
+大端字节序，是指数据的低位保存在内存的高地址中，而数据的高位，保存在内存的低地址中。  
+  ```C
+  void IsBigEndian()  
+  {  
+      short int a = 0x1122;       //十六进制，一个数值占4位  
+      char b =  *(char *)&a;      //通过将short(2字节)强制类型转换成char单字节，b指向a的起始字节（低字节）  
+      if( b == 0x11)              //低字节存的是数据的高字节数据  
+      {  
+          return TRUE;            //是大端模式  
+      }  
+      else  
+      {  
+          return FALSE;           //是小端模式  
+      }  
+  }  
+  ```  
+5. 快速排序  
+  ```C
+  作者：陈卫超
+链接：https://www.zhihu.com/question/24361443/answer/100339797
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+#include<stdio.h>
+
+void QuickSort(int arr[], int left, int right)
+{
+    int i    = left;
+    int j    = right;
+    int temp = 0;
+    int mid  = arr[(i + j) / 2];  //取数组中间的值作为“基准值”
+
+    while (i <= j)
+    {
+        while (arr[i] < mid)
+        {
+            i++;
+        }
+        while (arr[j] > mid)
+        {
+            j--;
+        }
+
+        //小于基准值移至左边，大于基准值的移至右边
+        if (i <= j)
+        {
+            temp   = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
+        }
+    }
+
+    if (j > left)
+    {
+        QuickSort(arr, left, j);  //递归左半数组
+    }
+    if (i < right)
+    {
+        QuickSort(arr, i, right); //递归右半数组
+    }
+}
+
+#define LEN 10
+
+//测试程序
+int main(void)
+{
+    int arr[LEN] = {0};
+
+    printf("Input %d integers:", LEN);
+    for (int i = 0; i < LEN; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+
+    QuickSort(arr, 0, LEN - 1);
+
+    for (int i = 0; i < LEN; i++)
+    {
+        printf("%d, ", arr[i]);
+    }
+    printf("\n");
+
+    return 0;
+}
+```

@@ -13,6 +13,27 @@
   1. 单向链表(slist)  
     每个元素包含两个域，`值域`和`指针域`，我们把这样的元素称之为`节点`。  
     每个节点的指针域内有一个指针，指向下一个节点，而最后一个节点则指向一个空值。  
+    面试题：给定链表的头指针和一个节点指针，在O(1)时间删除该节点。[Google面试题]  
+    **分析**：本题与《编程之美》上的「从无头单链表中删除节点」类似。主要思想都是「狸猫换太子」，即用下一个节点数据覆盖要删除的节点，然后删除下一个节点。但是如果节点是尾节点时，该方法就行不通了。  
+    
+    ```C
+    struct Node{
+        int data;
+        Node* next;
+    };
+    
+    //O(1)时间删除链表节点，从无头单链表中删除节点
+    void deleteRandomNode(Node *cur)
+    {
+        assert(cur != NULL);
+        assert(cur->next != NULL);    //不能是尾节点
+        Node* pNext = cur->next;
+        cur->data = pNext->data;
+        cur->next = pNext->next;
+        delete pNext;
+    }
+    ```  
+    [面试精选：链表问题集锦 —— Jark](http://wuchong.me/blog/2014/03/25/interview-link-questions/)  
 
 #### 算法分析
 ##### 一、比较排序算法  
@@ -43,7 +64,7 @@ void insertion(int arr[])
 }
 ```
 #### 面试题
-1. 堆和栈的区别：[堆和栈-静影沉璧](http://ichenwin.github.io/2016/05/12/%E5%A0%86%E5%92%8C%E6%A0%88/#more)  
+1. 堆和栈的区别：[堆和栈 —— 静影沉璧](http://ichenwin.github.io/2016/05/12/%E5%A0%86%E5%92%8C%E6%A0%88/#more)  
 2. 进程间通信的几种主要手段:  
   1. 管道（Pipe）及有名管道（named pipe）：管道可用于具有亲缘关系进程间的通信，有名管道克服了管道没有名字的限制，因此，除具有管道所具有的功能外，它还允许无亲缘关系进程间的通信；  
   2. 信号（Signal）：信号是比较复杂的通信方式，用于通知接受进程有某种事件发生，除了用于进程间通信外，进程还可以发送信号给进程本身；linux除了支持Unix早期信号语义函数sigal外，还支持语义符合Posix.1标准的信号函数sigaction（实际上，该函数是基于BSD的，BSD为了实现可靠信号机制，又能够统一对外接口，用sigaction函数重新实现了signal函数）；  

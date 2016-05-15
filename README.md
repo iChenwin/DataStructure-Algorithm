@@ -59,32 +59,27 @@ void insertion(int arr[])
   1. 互斥锁（mutex）  
   2. 条件变量（condition variable）  
   3. 信号量  
-     信号量（Semaphore）和Mutex类似，表示可用资源的数量，和Mutex不同的是这个数量可以大于1。
+     信号量（Semaphore）和Mutex类似，表示可用资源的数量，和Mutex不同的是这个数量可以大于1。  
 [进程与线程的一个简单解释--阮一峰](http://www.ruanyifeng.com/blog/2013/04/processes_and_threads.html)
 4. 大端字节序的判断  
 大端字节序，是指数据的低位保存在内存的高地址中，而数据的高位，保存在内存的低地址中。  
   ```C
-  void IsBigEndian()  
-  {  
-      short int a = 0x1122;       //十六进制，一个数值占4位  
-      char b =  *(char *)&a;      //通过将short(2字节)强制类型转换成char单字节，b指向a的起始字节（低字节）  
-      if( b == 0x11)              //低字节存的是数据的高字节数据  
-      {  
-          return TRUE;            //是大端模式  
-      }  
-      else  
-      {  
-          return FALSE;           //是小端模式  
-      }  
-  }  
+void IsBigEndian()  
+{  
+    short int a = 0x1122;       //十六进制，一个数值占4位  
+    char b =  *(char *)&a;      //通过将short(2字节)强制类型转换成char单字节，b指向a的起始字节（低字节）  
+    if( b == 0x11)              //低字节存的是数据的高字节数据  
+    {  
+        return TRUE;            //是大端模式  
+    }  
+    else  
+    {  
+        return FALSE;           //是小端模式  
+    }  
+}  
   ```  
 5. 快速排序  
   ```C
-  作者：陈卫超
-链接：https://www.zhihu.com/question/24361443/answer/100339797
-来源：知乎
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-
 #include<stdio.h>
 
 void QuickSort(int arr[], int left, int right)
